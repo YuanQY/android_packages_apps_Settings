@@ -127,24 +127,25 @@ final class SapServerProfile implements LocalBluetoothProfile {
     }
 
     public int getNameResource(BluetoothDevice device) {
-        return R.string.bluetooth_profile_sap;
+        return R.string.bluetooth_profile_map;
     }
 
     public int getSummaryResourceForDevice(BluetoothDevice device) {
         int state = getConnectionStatus(device);
         switch (state) {
             case BluetoothProfile.STATE_DISCONNECTED:
-                return R.string.bluetooth_sap_profile_summary_use_for;
+                return R.string.bluetooth_map_profile_summary_use_for;
 
             case BluetoothProfile.STATE_CONNECTED:
-                return R.string.bluetooth_sap_profile_summary_connected;
+                return R.string.bluetooth_map_profile_summary_connected;
+
             default:
                 return Utils.getConnectionStateSummary(state);
         }
     }
 
     public int getDrawableResource(BluetoothClass btClass) {
-        return R.drawable.ic_bt_network_pan;
+        return R.drawable.ic_bt_cellphone;
     }
 
     protected void finalize() {

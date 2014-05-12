@@ -802,11 +802,13 @@ public class DevelopmentSettings extends RestrictedSettingsFragment
     }
 
     private void writeBtHciSnoopLogOptions() {
+    /* Engel, TODO
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         adapter.configHciSnoopLog(mBtHciSnoopLog.isChecked());
         Settings.Secure.putInt(getActivity().getContentResolver(),
                 Settings.Secure.BLUETOOTH_HCI_LOG,
                 mBtHciSnoopLog.isChecked() ? 1 : 0);
+                */
     }
 
     private void writeDebuggerOptions() {

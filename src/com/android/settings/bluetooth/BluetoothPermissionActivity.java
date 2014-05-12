@@ -187,7 +187,7 @@ public class BluetoothPermissionActivity extends AlertActivity implements
 
     private void onPositive() {
         if (DEBUG) Log.d(TAG, "onPositive");
-        savePermissionChoice(mRequestType, CachedBluetoothDevice.ACCESS_ALLOWED);
+        savePermissionChoice(mRequestType, CachedBluetoothDevice.PERMISSION_ACCESS_ALLOWED);
         // TODO(edjee): Now that we always save the user's choice,
         // we can get rid of BluetoothDevice#EXTRA_ALWAYS_ALLOWED.
         sendIntentToReceiver(BluetoothDevice.ACTION_CONNECTION_ACCESS_REPLY, true,
@@ -197,7 +197,8 @@ public class BluetoothPermissionActivity extends AlertActivity implements
 
     private void onNegative() {
         if (DEBUG) Log.d(TAG, "onNegative");
-        savePermissionChoice(mRequestType, CachedBluetoothDevice.ACCESS_REJECTED);
+
+        savePermissionChoice(mRequestType, CachedBluetoothDevice.PERMISSION_ACCESS_REJECTED);
         sendIntentToReceiver(BluetoothDevice.ACTION_CONNECTION_ACCESS_REPLY, false,
                              null, false // dummy value, no effect since last param is null
                              );
