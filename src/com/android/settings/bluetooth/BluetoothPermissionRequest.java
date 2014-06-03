@@ -84,6 +84,13 @@ public final class BluetoothPermissionRequest extends BroadcastReceiver {
                 LocalBluetoothPreferences.shouldShowDialogInForeground(context, deviceAddress) ) {
                 context.startActivity(connectionAccessIntent);
             } else {
+                // Acquire wakelock so that LCD comes up since screen is off
+                PowerManager.WakeLock wakeLock = null;
+                wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK |
+                    PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.ON_AFTER_RELEASE,
+                        "ConnectionAccessActivity");
+                wakeLock.setReferenceCounted(false);
+                wakeLock.acquire();
                 // Put up a notification that leads to the dialog
 
                 // Create an intent triggered by clicking on the
@@ -114,6 +121,7 @@ public final class BluetoothPermissionRequest extends BroadcastReceiver {
                 NotificationManager notificationManager =
                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.notify(NOTIFICATION_ID, notification);
+                wakeLock.release();
             }
         } else if (action.equals(BluetoothDevice.ACTION_CONNECTION_ACCESS_CANCEL)) {
             // Remove the notification

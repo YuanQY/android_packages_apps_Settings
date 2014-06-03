@@ -283,15 +283,26 @@ final class CachedBluetoothDevice implements Comparable<CachedBluetoothDevice> {
     }
 
     boolean startPairing() {
+        if(mLocalAdapter.checkPairingState() == true)
+        {
+            Log.v(TAG, "Pairing is onging");
+            return true;
+        }
+
+        mLocalAdapter.setPairingState(true);
+        Log.v(TAG, "startPairing : isPairing : " + mLocalAdapter.checkPairingState());
+
         // Pairing is unreliable while scanning, so cancel discovery
         if (mLocalAdapter.isDiscovering()) {
             mLocalAdapter.cancelDiscovery();
         }
 
         if (!mDevice.createBond()) {
+            mLocalAdapter.setPairingState(false);
             return false;
         }
 
+        Log.v(TAG, "startPairing CreateBond : isPairing : " + mLocalAdapter.checkPairingState());
         mConnectAfterPairing = true;  // auto-connect after pairing
         return true;
     }
@@ -317,6 +328,7 @@ final class CachedBluetoothDevice implements Comparable<CachedBluetoothDevice> {
                 final boolean successful = dev.removeBond();
                 if (successful) {
                     if (Utils.D) {
+                        mDevice.setAlias(null);
                         Log.d(TAG, "Command sent successfully:REMOVE_BOND " + describe(null));
                     }
                     setRemovable(true);
